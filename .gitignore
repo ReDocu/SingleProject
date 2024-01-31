@@ -1,2 +1,4 @@
 chromedriver.exe
 LICENSE.chromedriver
+*.csv
+*.pickle
