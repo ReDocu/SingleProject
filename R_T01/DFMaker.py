@@ -61,7 +61,7 @@ def create_game_info(game_id):
     # # 'latest rating', 최근 평가
     
     try:
-        rev_game_late_rating = (soup.select('#review_histogram_rollup_section > div.user_reviews_summary_bar > div > span.game_review_summary.positive')[0].text)
+        rev_game_late_rating = (soup.select('#review_histogram_rollup_section > div.user_reviews_summary_bar > div > span.game_review_summary')[0].text)
     except:
         rev_game_late_rating = np.nan
     # # 'latest rating counter', 최근 평가 인원
@@ -71,7 +71,8 @@ def create_game_info(game_id):
         rev_game_late_rating_counter = 0
     # # 'all rating', 모든 평가
     try:
-        rev_game_all_rating = (soup.select('#review_histogram_rollup_section > div.user_reviews_summary_bar > div > span.game_review_summary.positive')[0].text)
+        #appReviewsAll_responsive > div.summary.column > span.game_review_summary.mixed
+        rev_game_all_rating = (soup.select('#review_histogram_rollup_section > div.user_reviews_summary_bar > div > span.game_review_summary')[0].text)
     except:
         rev_game_all_rating = np.nan
     # # 'all rating counter', 모든 평가 인원
@@ -79,6 +80,9 @@ def create_game_info(game_id):
         rev_game_all_rating_count = (soup.select('#review_histogram_rollup_section > div.user_reviews_summary_bar > div > span:nth-child(3)')[0].text)
     except:
         rev_game_all_rating_count = 0
+
+
+
     # # 'release date', 출시일
     rev_game_release_date = (soup.select('#game_highlights > div.rightcol > div > div.glance_ctn_responsive_left > div.release_date > div.date')[0].text)
     # 'DLC_Game', DLC게임인 경우 '#game_area_purchase > div.game_area_bubble.game_area_dlc_bubble' 이 영역이 생깁니다. 
@@ -216,6 +220,7 @@ def create_price_data(game_id):
     index_data = df[df['Final price'] != df['Origin Price']].index
 
     if len(index_data) > 0:
+        
         check_data_list = index_data if index_data[len(index_data) - 1] + 1 < (len(df) - 1) else index_data[:-1]
         df['Sale End'].iloc[check_data_list] = df['DateTime'].iloc[check_data_list + 1]
 
